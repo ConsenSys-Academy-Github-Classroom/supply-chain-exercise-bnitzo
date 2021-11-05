@@ -1,27 +1,27 @@
-pragma solidity ^0.5.0;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
 
 import "truffle/Assert.sol";
 import "truffle/DeployedAddresses.sol";
 import "../contracts/SupplyChain.sol";
 
 contract TestSupplyChain {
+    function testAddItem() public {
+        string memory name;
+        uint sku;
+        uint price;
+        uint state;
+        address seller;
+        address buyer;
 
-    // Test for failing conditions in this contracts:
-    // https://truffleframework.com/tutorials/testing-for-throws-in-solidity-tests
+        SupplyChain supplyChain = SupplyChain(DeployedAddresses.SupplyChain());
 
-    // buyItem
+        // Adds 1st Item
+        supplyChain.addItem('Item 1', 0);
 
-    // test for failure if user does not send enough funds
-    // test for purchasing an item that is not for Sale
+        // Fetchs 1st Item and Asserts that is ForSale
+        (name, sku, price, state, seller, buyer) = supplyChain.fetchItem(0);
 
-    // shipItem
-
-    // test for calls that are made by not the seller
-    // test for trying to ship an item that is not marked Sold
-
-    // receiveItem
-
-    // test calling the function from an address that is not the buyer
-    // test calling the function on an item not marked Shipped
-
+        Assert.equal(state, 0, "State should be ForSale or 0");
+    }
 }
